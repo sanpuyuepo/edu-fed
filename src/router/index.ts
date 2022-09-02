@@ -95,7 +95,7 @@ router.beforeEach((to, from, next) => {
       next({
         name: 'login',
         query: { // 通过 url 传递查询字符串参数
-          redirect: to.fullPath // 把登录成功需要返回的页面告诉登录页面
+          redirect: to.fullPath // 把登录成功后需要返回的页面告诉登录页面, 在登录成功后重定向到之前访问的页面
         }
       })
     } else {

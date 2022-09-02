@@ -2,6 +2,7 @@
  * 用户相关请求模块
  */
 
+import store from '@/store'
 import request from '@/utils/request'
 // 转换发送的数据格式
 import qs from 'qs'
@@ -22,5 +23,15 @@ export const login = (data: User) => {
     // 如果 data 是 FormData 对象, 则 Content-Type 是 multipart/form-data
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
     data: qs.stringify(data)
+  })
+}
+
+export const getUserInfo = () => {
+  return request({
+    method: 'GET',
+    url: '/front/user/getInfo',
+    headers: {
+      Authorization: store.state.user.access_token
+    }
   })
 }

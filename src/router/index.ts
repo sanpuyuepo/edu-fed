@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 // 布局组件
 import Layout from '@/layout/index.vue'
+import store from '@/store'
 
 Vue.use(VueRouter)
 
@@ -15,6 +16,9 @@ const routes: Array<RouteConfig> = [
   {
     path: '/',
     component: Layout,
+    meta: {
+      requiresAuth: true // 自定义数据
+    }, // meta 默认为空对象
     // 嵌套路由
     children: [
       {
@@ -70,6 +74,33 @@ const routes: Array<RouteConfig> = [
 
 const router = new VueRouter({
   routes
+})
+
+// ^ 导航守卫: 全局前置守卫
+// to: 即将要进入的目标 用一种标准化的方式
+// from: 当前导航正要离开的路由 用一种标准化的方式
+// next: 可选, 允许通行
+router.beforeEach((to, from, next) => {
+  console.log('进入全局前置守卫')
+  console.log('to => ', to)
+  console.log('from => ', from)
+
+  // if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
+  // else next()
+
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.
+    if (!store.state.user) {
+      next({
+        name: 'login'
+      })
+    } else {
+      next()
+    }
+  } else {
+    next() // 确保一定要调用 next()
+  }
 })
 
 export default router

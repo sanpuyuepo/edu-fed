@@ -26,7 +26,7 @@ export default Vue.extend({
     return {
       form: {
         phone: '18201288771',
-        password: '123'
+        password: '111111'
       },
       rules: {
         phone: [
@@ -54,13 +54,14 @@ export default Vue.extend({
         // 失败: 给出提示
         if (data.state !== 1) {
           // element-UI 消息提示组件
-          return this.$message.error(data.message)
+          this.$message.error(data.message)
+        } else {
+          // 成功: 跳转到首页
+          this.$router.push({
+            name: 'home'
+          })
+          this.$message.success('登录成功')
         }
-        // 成功: 跳转到首页
-        this.$router.push({
-          name: 'home'
-        })
-        this.$message.success('登录成功')
       } catch (error) {
         console.log('登录失败', error)
       }

@@ -16,9 +16,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import request from '@/utils/request'
-// 转换发送的数据格式
-import qs from 'qs'
+import { login } from '@/services/user'
 
 import { Form } from 'element-ui'
 
@@ -51,14 +49,7 @@ export default Vue.extend({
         await (this.$refs.form as Form).validate()
         // 2. 验证成功提交表单,发送请求
         this.isLoginLoading = true
-        const { data } = await request({
-          method: 'POST',
-          url: '/front/user/login',
-          // axios 默认发送数据格式为: application/json, 其他方式参考 axios 官方文档
-          // data: this.form
-          headers: { 'content-type': 'application/x-www-form-urlencoded' },
-          data: qs.stringify(this.form)
-        })
+        const { data } = await login(this.form)
         // 3. 处理请求结果:
         // 失败: 给出提示
         if (data.state !== 1) {

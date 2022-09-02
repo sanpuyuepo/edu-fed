@@ -1,10 +1,7 @@
 <template>
   <div id="app">
-    <h1>APP</h1>
     <!-- 根路由出口 -->
     <router-view />
-
-    <p class="text">Hello Vue</p>
   </div>
 </template>
 

@@ -2,7 +2,6 @@
  * 用户相关请求模块
  */
 
-import store from '@/store'
 import request from '@/utils/request'
 // 转换发送的数据格式
 import qs from 'qs'
@@ -29,9 +28,10 @@ export const login = (data: User) => {
 export const getUserInfo = () => {
   return request({
     method: 'GET',
-    url: '/front/user/getInfo',
-    headers: {
-      Authorization: store.state.user.access_token
-    }
+    url: '/front/user/getInfo'
+    // axios 使用请求拦截器统一设置Token, 这里就不需要了
+    // headers: {
+    //   Authorization: store.state.user.access_token
+    // }
   })
 }

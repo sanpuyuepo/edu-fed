@@ -48,7 +48,6 @@ request.interceptors.request.use(function (config) {
 })
 
 // Add a response interceptor
-
 // refresh Token flag
 let isRefreshing = false
 // 存储刷新 token 之前发送失败的请求 401
@@ -62,16 +61,15 @@ request.interceptors.response.use(function (response) {
     const { status } = error.response
     if (status === 400) {
       Message.error('请求参数错误')
-    } else if (status === 401) {
-      // token 无效(未提供token, token无效, token 过期了)
+    } else if (status === 401) { // token 无效(未提供token, token无效, token 过期了)
       if (!store.state.user) {
         redirectLogin()
         return Promise.reject(error)
       }
 
+      // 尝试刷新获取新的 token
       if (!isRefreshing) {
         isRefreshing = true
-        // 尝试刷新获取新的 token
         return refreshToken().then(res => {
           if (!res.data.success) {
             throw new Error('刷新 Token 失败')

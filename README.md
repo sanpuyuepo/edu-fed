@@ -1,4 +1,4 @@
-# edu-boss-fed
+# edu-fed
 
 ## Project setup
 ```

@@ -41,7 +41,5 @@ export default Vue.extend({
   background: #f8f9fa;
 }
 
-.el-main {
-  background: yellow;
-}
+.el-main {}
 </style>

@@ -38,7 +38,7 @@
         <el-table-column
           label="操作"
           align="center">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             <el-button
               size="mini"
               @click="handleEdit(scope.row)">编辑</el-button>

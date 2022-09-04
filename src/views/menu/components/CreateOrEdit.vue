@@ -36,7 +36,7 @@
           <el-input-number v-model="form.orderNum"></el-input-number>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onSubmit">立即添加</el-button>
+          <el-button type="primary" @click="onSubmit">{{ isEdit ? '提交编辑' : '立即添加'}}</el-button>
           <el-button @click="cancel">取消</el-button>
         </el-form-item>
       </el-form>

@@ -102,7 +102,6 @@ export default Vue.extend({
           console.log(err)
           this.$message.info('取消删除')
         })
-      console.log(row)
     }
   }
 })

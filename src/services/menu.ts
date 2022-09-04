@@ -30,3 +30,10 @@ export const getEditMenuInfo = (id = -1) => {
     }
   })
 }
+
+export const deleteMenu = (id: number) => {
+  return request({
+    method: 'DELETE',
+    url: `/boss/menu/${id}`
+  })
+}

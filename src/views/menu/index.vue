@@ -45,7 +45,7 @@
             <el-button
               size="mini"
               type="danger"
-              @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+              @click="handleDelete(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -55,7 +55,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { getAllMenus } from '@/services/menu'
+import { getAllMenus, deleteMenu } from '@/services/menu'
 
 export default Vue.extend({
   name: 'MenuIndex',
@@ -79,11 +79,25 @@ export default Vue.extend({
       }
     },
 
-    handleEdit (index, row) {
+    handleEdit (index: number, row: any) {
       console.log(index, row)
     },
-    handleDelete (index, row) {
-      console.log(index, row)
+    handleDelete (row: any) {
+      this.$confirm('是否确认删除?', '删除提示', {})
+        .then(async () => {
+          // 删除操作
+          const { data } = await deleteMenu(row.id)
+          if (data.code === '000000') {
+            this.$message.success('删除成功')
+            // 更新数据
+            this.loadAllMenus()
+          }
+        })
+        .catch(err => {
+          console.log(err)
+          this.$message.info('取消删除')
+        })
+      console.log(row)
     }
   }
 })

@@ -124,13 +124,17 @@ export default Vue.extend({
       }
     },
 
+    // 重置查询条件
     onReset () {
-      console.log('reset...')
+      this.searchCondition.name = ''
+      this.searchCondition.url = ''
+      this.searchCondition.categoryId = ''
     },
 
     // 条件查询
     onSearch () {
       console.log('Searching...')
+      console.log(this.searchCondition)
     },
 
     openDialog () {

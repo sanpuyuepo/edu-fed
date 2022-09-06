@@ -89,14 +89,13 @@ export default Vue.extend({
     async onSubmit () {
       // 1. 表单验证
       await (this.$refs.resourceForm as Form).validate()
-      this.isVisible = false
-      this.$emit('closeDialog')
-      console.log('submit!')
       // 保存或更新资源
       const { data } = await createOrUpdateResource(this.resourceForm)
       if (data.code === '000000') {
         this.$message.success(data.mesg)
       }
+      this.isVisible = false
+      this.$emit('closeDialog')
     },
 
     // 取消

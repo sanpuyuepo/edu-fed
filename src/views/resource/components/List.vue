@@ -100,7 +100,7 @@
 import Vue from 'vue'
 import moment from 'moment'
 import CreateOrEdit from './CreateOrEdit.vue'
-import { getAllResources, getPaginationResource, getAllCategorise, deleteResource } from '@/services/resource'
+import { getPaginationResource, getAllCategorise, deleteResource } from '@/services/resource'
 import { Form } from 'element-ui'
 
 const listDateFormatter = (list: any) => {

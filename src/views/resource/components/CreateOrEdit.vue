@@ -82,7 +82,6 @@ export default Vue.extend({
     } else {
       this.resourceForm.categoryId = this.categories[0].id
     }
-    console.log(this.resourceForm)
   },
   methods: {
     // 添加资源

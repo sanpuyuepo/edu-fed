@@ -44,3 +44,12 @@ export const deleteResource = (id: number) => {
     url: `/boss/resource/${id}`
   })
 }
+
+// 给角色分配资源
+export const allocateRoleResources = (data: any) => {
+  return request({
+    method: 'POST',
+    url: '/boss/resource/allocateRoleResources',
+    data: data
+  })
+}

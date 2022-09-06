@@ -73,6 +73,13 @@ const routes: Array<RouteConfig> = [
         path: '/menu/:id/edit',
         name: 'menu-edit',
         component: () => import(/* webpackChunkName: 'menu-create-edit' */ '@/views/menu/edit.vue')
+      },
+      // role-management
+      {
+        path: '/role/:roleId/alloc-menu',
+        name: 'alloc-menu',
+        component: () => import(/* webpackChunkName: 'alloc-menu' */ '@/views/role/alloc-menu.vue'),
+        props: true // ^ 将路由路径中的动态参数(eg. :roleId)映射到组件的 props 数据中, 实现解耦
       }
     ]
   },
@@ -92,10 +99,6 @@ const router = new VueRouter({
 // from: 当前导航正要离开的路由 用一种标准化的方式
 // next: 可选, 允许通行
 router.beforeEach((to, from, next) => {
-  console.log('进入全局前置守卫')
-  console.log('to => ', to)
-  console.log('from => ', from)
-
   // if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
   // else next()
 

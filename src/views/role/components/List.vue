@@ -44,6 +44,8 @@
           label="操作"
           align="center">
           <template v-slot="scope">
+            <el-button size="mini" @click="handleAllocMenu(scope.row)">分配菜单</el-button>
+            <el-button size="mini">分配资源</el-button>
             <el-button
               size="mini"
               @click="handleEdit(scope.row)">编辑</el-button>
@@ -176,6 +178,15 @@ export default Vue.extend({
           console.log(err)
           this.$message.info('取消删除')
         })
+    },
+
+    handleAllocMenu (row: any) {
+      this.$router.push({
+        name: 'alloc-menu',
+        params: {
+          roleId: row.id
+        }
+      })
     }
   }
 })

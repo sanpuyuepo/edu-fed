@@ -37,3 +37,12 @@ export const deleteRole = (id: number) => {
     url: `/boss/role/${id}`
   })
 }
+
+// 给用户分配角色
+export const allocateUserRoles = (data: any) => {
+  return request({
+    method: 'POST',
+    url: '/boss/role/allocateUserRoles',
+    data: data
+  })
+}

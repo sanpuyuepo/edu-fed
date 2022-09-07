@@ -16,8 +16,10 @@
         </el-input>
       </el-form-item>
       <el-form-item>
-        <el-button @click="$emit('cancel')">取 消</el-button>
-        <el-button type="primary" @click="onSubmit">确 定</el-button>
+        <div class="center">
+          <el-button @click="$emit('cancel')">取 消</el-button>
+          <el-button type="primary" @click="onSubmit">确 定</el-button>
+        </div>
       </el-form-item>
     </el-form>
   </div>
@@ -71,9 +73,13 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-  .el-dialog {
+.el-dialog {
   .el-form-item {
     width: 500px;
   }
+}
+
+.center {
+  text-align: right;
 }
 </style>

@@ -4,6 +4,7 @@
 
 import request from '@/utils/request'
 
+// 获取所有资源
 export const getAllResources = () => {
   return request({
     method: 'GET',
@@ -51,5 +52,16 @@ export const allocateRoleResources = (data: any) => {
     method: 'POST',
     url: '/boss/resource/allocateRoleResources',
     data: data
+  })
+}
+
+// 获取角色拥有的资源列表
+export const getRoleResources = (roleId: any) => {
+  return request({
+    method: 'GET',
+    url: '/boss/resource/getRoleResources',
+    params: {
+      roleId
+    }
   })
 }

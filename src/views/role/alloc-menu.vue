@@ -11,8 +11,9 @@
         :props="defaultProps">
       </el-tree>
       <div class="center">
-        <el-button @click="resetChecked">清空</el-button>
+        <el-button type="warning" @click="resetChecked">清空</el-button>
         <el-button type="primary" @click="onSave">保存</el-button>
+        <el-button @click="onCancel">取消</el-button>
       </div>
   </el-card>
   </div>
@@ -89,6 +90,10 @@ export default Vue.extend({
       if (data.code === '000000') {
         this.$message.success(data.mesg)
       }
+      this.$router.back()
+    },
+
+    onCancel () {
       this.$router.back()
     },
 

@@ -80,6 +80,12 @@ const routes: Array<RouteConfig> = [
         name: 'alloc-menu',
         component: () => import(/* webpackChunkName: 'alloc-menu' */ '@/views/role/alloc-menu.vue'),
         props: true // ^ 将路由路径中的动态参数(eg. :roleId)映射到组件的 props 数据中, 实现解耦
+      },
+      {
+        path: '/role/:roleId/alloc-resource',
+        name: 'alloc-resource',
+        component: () => import(/* webpackChunkName: 'alloc-resource' */ '@/views/role/alloc-resource.vue'),
+        props: true
       }
     ]
   },

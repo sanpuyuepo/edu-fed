@@ -63,14 +63,24 @@
           <template>
             <el-button
               size="mini"
-              >禁用</el-button>
+              >封禁</el-button>
             <el-button
               size="mini"
-              type="danger"
               @click="allocRole">分配角色</el-button>
           </template>
         </el-table-column>
       </el-table>
+      <div class="pagination">
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="queryConditon.currentPage"
+          :page-sizes="[20, 30, 50]"
+          :page-size="queryConditon.pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total">
+        </el-pagination>
+      </div>
     </el-card>
   </div>
 </template>
@@ -121,7 +131,9 @@ export default Vue.extend({
             picker.$emit('pick', [start, end])
           }
         }]
-      }
+      },
+
+      total: 0
     }
   },
   created () {
@@ -136,6 +148,7 @@ export default Vue.extend({
       this.queryConditon.endCreateTime = endCreateTime
 
       const { data } = await getUserPages(this.queryConditon)
+      this.total = data.data.total
       this.userList = data.data.records
       this.userList.forEach(user => {
         // 添加默认头像
@@ -155,6 +168,17 @@ export default Vue.extend({
     // 分配角色
     allocRole () {
       console.log('allocRole')
+    },
+
+    // 分页
+    handleSizeChange (val: number) {
+      this.queryConditon.pageSize = val
+      this.queryConditon.currentPage = 1
+      this.loadUserPages()
+    },
+    handleCurrentChange (val: number) {
+      this.queryConditon.currentPage = val
+      this.loadUserPages()
     }
   }
 })
@@ -165,5 +189,9 @@ export default Vue.extend({
     width: 50xp;
     height: 50px;
     border-radius: 50%;
+  }
+  .pagination {
+    margin-top: 20px;
+    text-align: right;
   }
 </style>

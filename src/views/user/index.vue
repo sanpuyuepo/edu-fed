@@ -55,15 +55,24 @@
           align="center"
           prop="status"
           label="状态">
+          <template v-slot="scope">
+            <el-switch
+              v-model="scope.row.status"
+              active-color="#13ce66"
+              inactive-color="#ff4949"
+              active-value="ENABLE"
+              inactive-value="DISABLE"
+              @change="switchUserStatus(scope.row)">
+            </el-switch>
+          </template>
         </el-table-column>
         <el-table-column
           label="操作"
           align="center">
-          <!-- <template v-slot="scope"> -->
-          <template>
+          <template v-slot="scope">
             <el-button
               size="mini"
-              >封禁</el-button>
+              @click="disableUser(scope.row)">封禁</el-button>
             <el-button
               size="mini"
               @click="allocRole">分配角色</el-button>
@@ -88,7 +97,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { getFullTime } from '@/utils/time'
-import { getUserPages } from '@/services/user'
+import { getUserPages, disableUser, enableUser } from '@/services/user'
 
 export default Vue.extend({
   name: 'UserIndex',
@@ -132,7 +141,6 @@ export default Vue.extend({
           }
         }]
       },
-
       total: 0
     }
   },
@@ -163,6 +171,46 @@ export default Vue.extend({
 
     onSearch () {
       this.loadUserPages()
+    },
+
+    async switchEnableUser (row: any) {
+      try {
+        await enableUser(row.id)
+      } catch (err) {
+        console.log(err)
+      } finally {
+        this.loadUserPages()
+      }
+    },
+
+    async switchDisableUser (row: any) {
+      try {
+        await disableUser({ userId: row.id })
+      } catch (err) {
+        console.log(err)
+      } finally {
+        this.loadUserPages()
+      }
+    },
+
+    // switch user status: enable / disable
+    switchUserStatus (row: any) {
+      console.log('switch...', row.status)
+      if (row.status === 'DISABLE') {
+        this.switchDisableUser(row)
+      } else {
+        this.switchEnableUser(row)
+      }
+    },
+
+    // 封禁用户
+    async disableUser (row: any) {
+      try {
+        await disableUser({ userId: row.id })
+        this.loadUserPages()
+      } catch (err) {
+        console.log(err)
+      }
     },
 
     // 分配角色

@@ -44,3 +44,22 @@ export const getUserPages = (data: any) => {
     data: data
   })
 }
+
+// 封禁用户
+export const disableUser = (data: any) => {
+  return request({
+    method: 'POST',
+    url: '/boss/user/forbidUser',
+    data: data
+  })
+}
+// 启用用户
+export const enableUser = (userId: number) => {
+  return request({
+    method: 'POST',
+    url: '/boss/user/enableUser',
+    params: {
+      userId
+    }
+  })
+}

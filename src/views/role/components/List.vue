@@ -61,6 +61,7 @@
     <el-dialog
       :title="isEdit ? '编辑角色' : '添加角色'"
       :visible.sync="isVisible"
+      :before-close="handleClose"
       width="600px">
       <create-or-edit
         v-if="isVisible"
@@ -152,6 +153,11 @@ export default Vue.extend({
     onCancel () {
       this.isVisible = false
       this.editInfo = null
+    },
+
+    handleClose (done: any) {
+      this.editInfo = null
+      done()
     },
 
     // 编辑角色

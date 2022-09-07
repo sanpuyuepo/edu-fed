@@ -67,7 +67,7 @@
             <el-button
               size="mini"
               type="danger"
-              >分配角色</el-button>
+              @click="allocRole">分配角色</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -150,6 +150,11 @@ export default Vue.extend({
 
     onSearch () {
       this.loadUserPages()
+    },
+
+    // 分配角色
+    allocRole () {
+      console.log('allocRole')
     }
   }
 })

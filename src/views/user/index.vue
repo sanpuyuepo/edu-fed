@@ -75,7 +75,7 @@
               @click="disableUser(scope.row)">封禁</el-button>
             <el-button
               size="mini"
-              @click="allocRole">分配角色</el-button>
+              @click="allocRole(scope.row.id)">分配角色</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -90,6 +90,31 @@
           :total="total">
         </el-pagination>
       </div>
+
+      <!-- allocate role dialog -->
+      <el-dialog
+        width="30%"
+        title="分配角色"
+        :visible.sync="dialogFormVisible">
+        <el-form :model="form">
+          <el-form-item label="选择角色">
+            <el-select
+              multiple
+              v-model="form.roleIdList"
+              placeholder="请选择为用户分配的角色">
+              <el-option
+                v-for="role in allRoles" :key="role.id"
+                :label="role.name"
+                :value="role.id">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button size="mini" @click="onCancel">取 消</el-button>
+          <el-button size="mini" type="primary" @click="onSubmit()">确 定</el-button>
+        </div>
+      </el-dialog>
     </el-card>
   </div>
 </template>
@@ -98,6 +123,7 @@
 import Vue from 'vue'
 import { getFullTime } from '@/utils/time'
 import { getUserPages, disableUser, enableUser } from '@/services/user'
+import { getAllRoles, getRolesOfUser, allocateUserRoles } from '@/services/role'
 
 export default Vue.extend({
   name: 'UserIndex',
@@ -141,7 +167,15 @@ export default Vue.extend({
           }
         }]
       },
-      total: 0
+      total: 0,
+      // dialog form
+      dialogFormVisible: false,
+      form: {
+        userId: -1,
+        roleIdList: [] as any
+      },
+      // allocate role for user
+      allRoles: []
     }
   },
   created () {
@@ -213,9 +247,40 @@ export default Vue.extend({
       }
     },
 
-    // 分配角色
-    allocRole () {
-      console.log('allocRole')
+    // 获取角色
+    async loadRoles (userId: number) {
+      const res = await Promise.all([getAllRoles(), getRolesOfUser(userId)])
+      const allRoles = res[0].data.data
+      const userRoles = res[1].data.data
+
+      this.allRoles = allRoles
+      // handle user role
+      userRoles.forEach((item: any) => {
+        this.form.roleIdList.push(item.id)
+      })
+      this.form.userId = userId
+    },
+    // TODO 分配角色
+    allocRole (userId: number) {
+      this.loadRoles(userId)
+      this.dialogFormVisible = true
+    },
+
+    onCancel () {
+      this.dialogFormVisible = false
+      this.form.roleIdList = []
+    },
+
+    async onSubmit () {
+      this.dialogFormVisible = false
+      const { data } = await allocateUserRoles({
+        userId: this.form.userId,
+        roleIdList: this.form.roleIdList
+      })
+      if (data.code === '000000') {
+        this.$message.success(data.mesg)
+      }
+      this.form.roleIdList = []
     },
 
     // 分页

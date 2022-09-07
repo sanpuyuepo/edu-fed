@@ -35,3 +35,12 @@ export const getUserInfo = () => {
     // }
   })
 }
+
+// 分页查询用户信息 /boss/user/getUserPages
+export const getUserPages = (data: any) => {
+  return request({
+    method: 'POST',
+    url: '/boss/user/getUserPages',
+    data: data
+  })
+}

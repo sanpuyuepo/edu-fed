@@ -140,7 +140,7 @@ export default Vue.extend({
 
     async changeState (row: any) {
       await changeCourseState(row.id, row.status)
-      // this.loadCourses()
+      this.$message.success(`${row.status === 0 ? '下架' : '上架'}成功`)
     },
 
     handleEdit (row: any) {

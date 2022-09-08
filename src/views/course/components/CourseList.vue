@@ -58,6 +58,7 @@
                 inactive-color="#ff4949"
                 :active-value="1"
                 :inactive-value="0"
+                :disabled="scope.row.isStatusLoading"
                 @change="changeState(scope.row)">
               </el-switch>
           </el-tooltip>
@@ -131,6 +132,10 @@ export default Vue.extend({
     async loadCourses () {
       const { data } = await getCoursePagination(this.formInline)
       this.total = data.data.total
+      // 添加字段用于设置 changeState 时禁用 Switch 组件
+      data.data.records.forEach((item: any) => {
+        item.isStatusLoading = false
+      })
       this.courses = data.data.records
     },
 
@@ -139,8 +144,10 @@ export default Vue.extend({
     },
 
     async changeState (row: any) {
+      row.isStatusLoading = true
       await changeCourseState(row.id, row.status)
       this.$message.success(`${row.status === 0 ? '下架' : '上架'}成功`)
+      row.isStatusLoading = false
     },
 
     handleEdit (row: any) {

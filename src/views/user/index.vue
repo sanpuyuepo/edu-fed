@@ -253,13 +253,10 @@ export default Vue.extend({
       const userRoles = res[1].data.data
 
       this.allRoles = allRoles
-      // handle user role
-      userRoles.forEach((item: any) => {
-        this.form.roleIdList.push(item.id)
-      })
+      this.form.roleIdList = userRoles.map((item: any) => item.id)
       this.form.userId = userId
     },
-    // TODO 分配角色
+    // 分配角色
     allocRole (userId: number) {
       this.loadRoles(userId)
       this.dialogFormVisible = true

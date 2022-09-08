@@ -90,9 +90,9 @@
           :total="total">
         </el-pagination>
       </div>
-
-      <!-- allocate role dialog -->
-      <el-dialog
+    </el-card>
+     <!-- allocate role dialog -->
+     <el-dialog
         width="30%"
         title="分配角色"
         :visible.sync="dialogFormVisible">
@@ -115,7 +115,6 @@
           <el-button size="mini" type="primary" @click="onSubmit()">确 定</el-button>
         </div>
       </el-dialog>
-    </el-card>
   </div>
 </template>
 

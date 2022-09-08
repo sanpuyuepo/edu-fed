@@ -49,13 +49,18 @@
           align="center"
           label="上架状态">
           <template v-slot="scope">
-            <el-switch
-              v-model="scope.row.status"
-              active-color="#13ce66"
-              inactive-color="#ff4949"
-              :active-value="1"
-              :inactive-value="0">
-            </el-switch>
+            <el-tooltip
+              :content="scope.row.status === 1 ? '已上架' : '已下架'"
+              placement="left">
+              <el-switch
+                v-model="scope.row.status"
+                active-color="#13ce66"
+                inactive-color="#ff4949"
+                :active-value="1"
+                :inactive-value="0"
+                @change="changeState(scope.row)">
+              </el-switch>
+          </el-tooltip>
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center" width="300">
@@ -88,7 +93,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { getCoursePagination } from '@/services/course'
+import { getCoursePagination, changeCourseState } from '@/services/course'
 
 export default Vue.extend({
   name: 'CourseList',
@@ -131,6 +136,11 @@ export default Vue.extend({
 
     onSubmit () {
       this.loadCourses()
+    },
+
+    async changeState (row: any) {
+      await changeCourseState(row.id, row.status)
+      // this.loadCourses()
     },
 
     handleEdit (row: any) {

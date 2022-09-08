@@ -12,3 +12,15 @@ export const getCoursePagination = (data: any) => {
     data: data
   })
 }
+
+// 课程上下架
+export const changeCourseState = (courseId: string, status: string) => {
+  return requeset({
+    method: 'GET',
+    url: '/boss/course/changeState',
+    params: {
+      courseId,
+      status
+    }
+  })
+}

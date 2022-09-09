@@ -37,7 +37,8 @@
           <div class="course-cover">
             <el-form-item label="课程封面">
               <!--
-                v-modal 的本质还是父子组件通信:
+                v-model 的本质还是父子组件通信:
+                https://v2.cn.vuejs.org/v2/guide/components-custom-events.html#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BB%84%E4%BB%B6%E7%9A%84-v-model
                 1. 父组件给子组件传递一个名为 value 的数据(Props)
                 2. 默认监听 input 事件, 修改绑定的数据(自定义事件)
               -->
@@ -50,22 +51,22 @@
         </div>
         <div v-show="activeStep === 1">
           <el-form-item label="售价">
-            <el-input placeholder="请输入课程售价">
+            <el-input v-model="course.discounts" placeholder="请输入课程售价">
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
           <el-form-item label="原价">
-            <el-input placeholder="请输入课程原价">
+            <el-input v-model="course.price" placeholder="请输入课程原价">
               <template slot="append">元</template>
             </el-input>
           </el-form-item>
           <el-form-item label="销量">
-            <el-input placeholder="请输入课程销量">
+            <el-input v-model="course.sales" placeholder="请输入课程销量">
               <template slot="append">单</template>
             </el-input>
           </el-form-item>
           <el-form-item label="活动标签">
-            <el-input maxlength="10" show-word-limit placeholder="请输入活动标签"></el-input>
+            <el-input v-model="course.discountsTag" maxlength="10" show-word-limit placeholder="请输入活动标签"></el-input>
           </el-form-item>
         </div>
         <div v-show="activeStep === 2">

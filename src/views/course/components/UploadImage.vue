@@ -1,7 +1,9 @@
 <template>
   <div class="uploadImage">
     <el-upload
+      v-if="!isUploading"
       class="avatar-uploader"
+      action=""
       :show-file-list="false"
       :before-upload="beforeUpload"
       :http-request="handleUpload">
@@ -9,6 +11,13 @@
       <i v-else class="el-icon-plus avatar-uploader-icon"></i>
       <div slot="tip" class="el-upload__tip">建议尺寸：230*300px，JPG、PNG格式，图片小于150K</div>
     </el-upload>
+    <el-progress
+      v-else
+      type="circle"
+      :width="146"
+      :status="percentage === 100 ? 'success' : undefined"
+      :percentage="percentage">
+    </el-progress>
   </div>
 </template>
 
@@ -27,12 +36,23 @@ export default Vue.extend({
       default: 2
     }
   },
+  data () {
+    return {
+      isUploading: false,
+      percentage: 0
+    }
+  },
   methods: {
     // 封装自定义上传行为
     async handleUpload (options: any) {
+      this.isUploading = true
       const fd = new FormData()
       fd.append('file', options.file)
-      const { data } = await uploadImg(fd)
+      const { data } = await uploadImg(fd, e => {
+        this.percentage = Math.floor(e.loaded / e.total * 100)
+      })
+      this.isUploading = false
+      this.percentage = 0
       this.$emit('input', data.data.name)
     },
 

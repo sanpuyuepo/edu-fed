@@ -19,7 +19,13 @@
             <el-button @click="onSubmit">查询</el-button>
           </el-form-item>
         </el-form>
-        <el-button class="add-course" type="primary" icon="el-icon-plus">新建课程</el-button>
+        <el-button
+          class="add-course"
+          type="primary"
+          icon="el-icon-plus"
+          @click="$router.push({
+            name: 'create-course'
+          })">新建课程</el-button>
       </div>
       <el-table
         :data="courses"

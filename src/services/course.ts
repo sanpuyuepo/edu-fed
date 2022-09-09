@@ -24,3 +24,22 @@ export const changeCourseState = (courseId: string, status: string) => {
     }
   })
 }
+
+// 保存或者更新课程信息
+export const saveOrUpdateCourse = (data: any) => {
+  return requeset({
+    method: 'POST',
+    url: '/boss/course/saveOrUpdateCourse',
+    data: data
+  })
+}
+
+// 上传图片:
+// 接口数据类型: multipart / form-data, 提交类型: FormData 对象
+export const uploadImg = (data: any) => {
+  return requeset({
+    method: 'POST',
+    url: '/boss/course/upload',
+    data
+  })
+}

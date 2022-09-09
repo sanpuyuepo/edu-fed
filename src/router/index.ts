@@ -41,10 +41,16 @@ const routes: Array<RouteConfig> = [
         name: 'resource',
         component: () => import(/* webpackChunkName: 'resource' */ '@/views/resource/index.vue')
       },
+      // 课程管理
       {
         path: '/course',
         name: 'course',
         component: () => import(/* webpackChunkName: 'course' */ '@/views/course/index.vue')
+      },
+      {
+        path: '/course/new',
+        name: 'create-course',
+        component: () => import(/* webpackChunkName: 'create-course' */ '@/views/course/create.vue')
       },
       {
         path: '/user',

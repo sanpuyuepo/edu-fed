@@ -1,4 +1,7 @@
 <template>
+  <div>
+    <el-page-header @back="goBack" :content="isEdit ? `${course.courseName}` : '新建课程'">
+    </el-page-header>
     <el-card>
     <div slot="header">
       <!-- 也可以添加点击事件实现步骤跳转 -->
@@ -105,6 +108,7 @@
       </el-form-item>
     </el-form>
     </el-card>
+  </div>
 </template>
 
 <script lang="ts">
@@ -222,6 +226,9 @@ export default Vue.extend({
       } else {
         this.$message.error('保存失败')
       }
+    },
+    goBack () {
+      this.$router.back()
     }
   }
 })

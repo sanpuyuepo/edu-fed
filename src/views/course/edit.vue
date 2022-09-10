@@ -1,7 +1,5 @@
 <template>
   <div class="edit-course">
-    <el-page-header @back="goBack" content="编辑课程">
-    </el-page-header>
     <create-or-edit isEdit :courseId="courseId"></create-or-edit>
   </div>
 </template>
@@ -19,14 +17,6 @@ export default Vue.extend({
     courseId: {
       type: [String, Number],
       required: true
-    }
-  },
-  created () {
-    console.log('Edit...', this.courseId)
-  },
-  methods: {
-    goBack () {
-      this.$router.back()
     }
   }
 })

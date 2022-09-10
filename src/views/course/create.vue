@@ -1,7 +1,5 @@
 <template>
   <div class="create-course">
-    <el-page-header @back="goBack" content="新增课程">
-    </el-page-header>
     <create-or-edit></create-or-edit>
   </div>
 </template>

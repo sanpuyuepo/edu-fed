@@ -45,3 +45,14 @@ export const uploadImg = (data: any, onUploadProgress?: (progressEvent: any) => 
     onUploadProgress
   })
 }
+
+// 通过课程Id获取课程信息
+export const getCourseById = (courseId: number | string) => {
+  return requeset({
+    method: 'GET',
+    url: '/boss/course/getCourseById',
+    params: {
+      courseId
+    }
+  })
+}

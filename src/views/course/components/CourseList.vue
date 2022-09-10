@@ -157,7 +157,10 @@ export default Vue.extend({
     },
 
     handleEdit (row: any) {
-      console.log(row)
+      this.$router.push({
+        name: 'edit-course',
+        params: { courseId: row.id }
+      })
     },
 
     handleSizeChange (val: number) {

@@ -1,8 +1,8 @@
 <template>
-  <div class="create-course">
-    <el-page-header @back="goBack" content="新增课程">
+  <div class="edit-course">
+    <el-page-header @back="goBack" content="编辑课程">
     </el-page-header>
-    <create-or-edit></create-or-edit>
+    <create-or-edit isEdit :courseId="courseId"></create-or-edit>
   </div>
 </template>
 
@@ -11,9 +11,18 @@ import Vue from 'vue'
 import CreateOrEdit from './components/CreateOrUpdate.vue'
 
 export default Vue.extend({
-  name: 'CreateCourse',
+  name: 'EditCourse',
   components: {
     CreateOrEdit
+  },
+  props: {
+    courseId: {
+      type: [String, Number],
+      required: true
+    }
+  },
+  created () {
+    console.log('Edit...', this.courseId)
   },
   methods: {
     goBack () {

@@ -36,7 +36,7 @@ export const saveOrUpdateCourse = (data: any) => {
 
 // 上传图片:
 // 接口数据类型: multipart / form-data, 提交类型: FormData 对象
-export const uploadImg = (data: any, onUploadProgress: (progressEvent: any) => void) => {
+export const uploadImg = (data: any, onUploadProgress?: (progressEvent: any) => void) => {
   return requeset({
     method: 'POST',
     url: '/boss/course/upload',

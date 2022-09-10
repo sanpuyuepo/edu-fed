@@ -18,6 +18,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
+import { uploadImg } from '@/services/course'
 
 export default Vue.extend({
   name: 'TextEditor',
@@ -33,7 +34,14 @@ export default Vue.extend({
       editor: null,
       html: this.value,
       toolbarConfig: { },
-      editorConfig: { placeholder: '请输入内容...' },
+      editorConfig: {
+        placeholder: '请输入内容...',
+        MENU_CONF: {
+          uploadImage: {
+            customUpload: upload
+          }
+        }
+      },
       mode: 'default' // or 'simple'
     }
   },
@@ -58,6 +66,13 @@ export default Vue.extend({
     editor.destroy() // 组件销毁时，及时销毁编辑器
   }
 })
+
+async function upload (file: File, insertFn: any) {
+  const fd = new FormData()
+  fd.append('file', file)
+  const { data } = await uploadImg(fd)
+  insertFn(data.data.name)
+}
 </script>
 
 <style src="@wangeditor/editor/dist/css/style.css"></style>

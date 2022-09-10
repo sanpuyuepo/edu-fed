@@ -163,7 +163,7 @@ export default Vue.extend({
           amount: 0,
           stock: 0 // 库存
         },
-        courseDescriptionMarkDown: '<h1>Test</h1>',
+        courseDescriptionMarkDown: '',
         autoOnlineTime: ''
       },
       rules: {
@@ -201,9 +201,7 @@ export default Vue.extend({
     async onSubmit () {
       // 校验表单
       await (this.$refs.ruleForm as Form).validate()
-      console.log('表单校验')
       const { data } = await saveOrUpdateCourse(this.course)
-      console.log(data)
     }
   }
 })

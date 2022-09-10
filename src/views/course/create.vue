@@ -12,26 +12,26 @@
           <el-step title="课程详情" icon="el-icon-tickets"></el-step>
         </el-steps>
       </div>
-      <el-form label-width="100px">
+      <el-form label-width="100px" :model="course" :rules="rules" ref="ruleForm">
         <div v-show="activeStep === 0">
-          <el-form-item label="课程名称">
+          <el-form-item label="课程名称" prop="courseName">
             <el-input v-model="course.courseName"></el-input>
           </el-form-item>
-          <el-form-item label="课程简介">
+          <el-form-item label="课程简介" prop="brief">
             <el-input v-model="course.brief"></el-input>
           </el-form-item>
-          <el-form-item label="课程概述">
+          <el-form-item label="课程概述" prop="previewFirstField">
             <el-input v-model="course.previewFirstField" placeholder="概述1" type="textarea" style="margin-bottom: 5px;">
             </el-input>
             <el-input v-model="course.previewSecondField" placeholder="概述2" type="textarea"></el-input>
           </el-form-item>
-          <el-form-item label="讲师姓名">
+          <el-form-item label="讲师姓名" prop="teacherDTO.teacherName">
             <el-input v-model="course.teacherDTO.teacherName"></el-input>
           </el-form-item>
-          <el-form-item label="讲师简介">
+          <el-form-item label="讲师简介" prop="teacherDTO.description">
             <el-input v-model="course.teacherDTO.description"></el-input>
           </el-form-item>
-          <el-form-item label="课程排序">
+          <el-form-item label="课程排序" prop="sortNum">
             <el-input-number label="描述文字" v-model="course.sortNum"></el-input-number>
           </el-form-item>
           <div class="course-cover">
@@ -50,7 +50,7 @@
           </div>
         </div>
         <div v-show="activeStep === 1">
-          <el-form-item label="售价">
+          <el-form-item label="售价" prop="discounts">
             <el-input v-model="course.discounts" placeholder="请输入课程售价">
               <template slot="append">元</template>
             </el-input>
@@ -71,25 +71,25 @@
         </div>
         <div v-show="activeStep === 2">
           <el-form-item label="限时秒杀开关">
-            <el-switch v-model="openSecKill" active-color="#13ce66" inactive-color="#ff4949">
+            <el-switch v-model="course.activityCourse" active-color="#13ce66" inactive-color="#ff4949">
             </el-switch>
           </el-form-item>
-          <template v-if="openSecKill">
+          <template v-if="course.activityCourse">
             <el-form-item label="开始时间">
-              <el-date-picker v-model="value1" type="datetime" placeholder="选择日期时间">
+              <el-date-picker v-model="course.activityCourseDTO.beginTime" type="datetime" placeholder="选择日期时间">
               </el-date-picker>
             </el-form-item>
             <el-form-item label="结束时间">
-              <el-date-picker v-model="value2" type="datetime" placeholder="选择日期时间">
+              <el-date-picker v-model="course.activityCourseDTO.endTime" type="datetime" placeholder="选择日期时间">
               </el-date-picker>
             </el-form-item>
             <el-form-item label="秒杀价">
-              <el-input placeholder="请输入秒杀价">
+              <el-input v-model="course.activityCourseDTO.amount" placeholder="请输入秒杀价">
                 <template slot="append">元</template>
               </el-input>
             </el-form-item>
             <el-form-item label="秒杀库存">
-              <el-input placeholder="请输入秒杀库存">
+              <el-input v-model="course.activityCourseDTO.stock" placeholder="请输入秒杀库存">
                 <template slot="append">个</template>
               </el-input>
             </el-form-item>
@@ -97,13 +97,13 @@
         </div>
         <div v-show="activeStep === 3">
           <el-form-item label="课程详情">
-            <el-input type="textarea"></el-input>
+            <el-input v-model="course.courseDescriptionMarkDown" type="textarea"></el-input>
           </el-form-item>
         </div>
         <el-form-item>
           <el-button v-if="activeStep !== 0" @click="activeStep--">上一步</el-button>
           <el-button v-if="activeStep !== 3" @click="activeStep++">下一步</el-button>
-          <el-button v-if="activeStep === 3" type="primary">保存</el-button>
+          <el-button v-if="activeStep === 3" type="primary" @click="onSubmit">保存</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -114,6 +114,7 @@
 import Vue from 'vue'
 import UploadImage from './components/UploadImage.vue'
 import { saveOrUpdateCourse } from '@/services/course'
+import { Form } from 'element-ui'
 
 export default Vue.extend({
   name: 'CreateCourse',
@@ -123,12 +124,12 @@ export default Vue.extend({
     return {
       activeStep: 0,
       course: {
-        id: 0,
+        // id: 0,
         courseName: '',
         brief: '',
         teacherDTO: {
-          id: 0,
-          courseId: 0,
+          // id: 0,
+          // courseId: 0,
           teacherName: '',
           position: '',
           description: ''
@@ -141,12 +142,13 @@ export default Vue.extend({
         discounts: 0,
         price: 0,
         sales: 0,
+        status: 0, // 课程状态，0-草稿，1-上架
         discountsTag: '',
         // 秒杀
         activityCourse: false,
         activityCourseDTO: {
-          id: 0,
-          courseId: 0,
+          // id: 0,
+          // courseId: 0,
           beginTime: '',
           endTime: '',
           amount: 0,
@@ -155,15 +157,44 @@ export default Vue.extend({
         courseDescriptionMarkDown: '',
         autoOnlineTime: ''
       },
-      // 秒杀
-      openSecKill: false,
-      value1: '',
-      value2: ''
+      rules: {
+        courseName: [
+          { required: true, message: '请输入课程名称', trigger: 'blur' },
+          { min: 2, max: 50, message: '长度在 2 到 50 个字符', trigger: 'blur' }
+        ],
+        brief: [
+          { required: true, message: '请输入课程简介', trigger: 'blur' },
+          { min: 2, max: 100, message: '长度在 2 到 100 个字符', trigger: 'blur' }
+        ],
+        previewFirstField: [
+          { required: true, message: '请输入课程概述', trigger: 'blur' }
+        ],
+        'teacherDTO.teacherName': [
+          { required: true, message: '请输入讲师姓名', trigger: 'blur' }
+        ],
+        'teacherDTO.description': [
+          { required: true, message: '请输入讲师介绍', trigger: 'blur' }
+        ],
+        sortNum: [
+          { required: true, message: '请输入课程排序', trigger: 'change' }
+        ],
+        discounts: [
+          { required: true, message: '请输入售价', trigger: 'blur' }
+        ]
+      }
     }
   },
   methods: {
     goBack () {
       this.$router.back()
+    },
+
+    async onSubmit () {
+      // 校验表单
+      await (this.$refs.ruleForm as Form).validate()
+      console.log('表单校验')
+      const { data } = await saveOrUpdateCourse(this.course)
+      console.log(data)
     }
   }
 })

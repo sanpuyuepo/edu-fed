@@ -6,10 +6,11 @@
       <div slot="header">
         <!-- 也可以添加点击事件实现步骤跳转 -->
         <el-steps :active="activeStep" simple>
-          <el-step title="基本信息" icon="el-icon-edit"></el-step>
-          <el-step title="销售信息" icon="el-icon-shopping-cart-1"></el-step>
-          <el-step title="秒杀活动" icon="el-icon-alarm-clock"></el-step>
-          <el-step title="课程详情" icon="el-icon-tickets"></el-step>
+          <el-step
+            :title="item.title"
+            :icon="item.icon"
+            v-for="(item, index) in steps" :key="index"
+            @click.native="activeStep = index"></el-step>
         </el-steps>
       </div>
       <el-form label-width="100px" :model="course" :rules="rules" ref="ruleForm">
@@ -97,7 +98,7 @@
         </div>
         <div v-show="activeStep === 3">
           <el-form-item label="课程详情">
-            <el-input v-model="course.courseDescriptionMarkDown" type="textarea"></el-input>
+            <text-editor v-model="course.courseDescriptionMarkDown"></text-editor>
           </el-form-item>
         </div>
         <el-form-item>
@@ -116,13 +117,21 @@ import UploadImage from './components/UploadImage.vue'
 import { saveOrUpdateCourse } from '@/services/course'
 import { Form } from 'element-ui'
 
+import TextEditor from '@/components/TextEditor/index.vue'
+
 export default Vue.extend({
   name: 'CreateCourse',
-  components: { UploadImage },
+  components: { UploadImage, TextEditor },
 
   data () {
     return {
       activeStep: 0,
+      steps: [
+        { title: '基本信息', icon: 'el-icon-edit' },
+        { title: '销售信息', icon: 'el-icon-shopping-cart-1' },
+        { title: '秒杀活动', icon: 'el-icon-alarm-clock' },
+        { title: '课程详情', icon: 'el-icon-tickets' }
+      ],
       course: {
         // id: 0,
         courseName: '',
@@ -154,7 +163,7 @@ export default Vue.extend({
           amount: 0,
           stock: 0 // 库存
         },
-        courseDescriptionMarkDown: '',
+        courseDescriptionMarkDown: '<h1>Test</h1>',
         autoOnlineTime: ''
       },
       rules: {
@@ -203,7 +212,9 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .el-card {
   margin-top: 20px;
-
+  .el-step {
+    cursor: pointer;
+  }
   .el-form {
     padding: 0 70px 0 30px;
   }

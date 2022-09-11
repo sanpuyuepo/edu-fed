@@ -78,7 +78,7 @@
               @click="handleEdit(scope.row)">编辑</el-button>
             <el-button
               size="small"
-              >内容管理</el-button>
+              @click="handleContent(scope.row)">内容管理</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -159,6 +159,13 @@ export default Vue.extend({
     handleEdit (row: any) {
       this.$router.push({
         name: 'edit-course',
+        params: { courseId: row.id }
+      })
+    },
+
+    handleContent (row: any) {
+      this.$router.push({
+        name: 'course-section',
         params: { courseId: row.id }
       })
     },

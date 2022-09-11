@@ -20,7 +20,6 @@
               <el-select
                 class="select-status"
                 v-model="data.status"
-                placeholder="请选择"
                 @change="handleSectionStatusChange(data)">
                 <el-option label="已隐藏" :value="0" />
                 <el-option label="待更新" :value="1" />
@@ -29,9 +28,16 @@
             </span>
             <!-- lesson -->
             <span v-else class="actions">
-              <el-button size="small">编辑</el-button>
-              <el-button size="small">上传视频</el-button>
-              <el-button size="small">状态</el-button>
+              <el-button size="mini" @click="handleShowEditLesson(data, node.parent.data)">编辑</el-button>
+              <el-button size="mini" type="success">上传视频</el-button>
+              <el-select class="select-status" size="mini"
+                v-model="data.status"
+                @change="handleLessonStatusChange(data)"
+              >
+                <el-option label="已隐藏" :value="0" />
+                <el-option label="待更新" :value="1" />
+                <el-option label="已更新" :value="2" />
+              </el-select>
             </span>
           </span>
       </template>
@@ -259,6 +265,18 @@ export default Vue.extend({
     async handleSectionStatusChange (section: any) {
       await saveOrUpdateSection(section)
       this.$message.success('操作成功')
+    },
+
+    /* lesson handler */
+    handleShowEditLesson (lesson: any, section: any) {
+      this.lesson = lesson
+      this.lesson.sectionName = section.sectionName
+      this.isAddLessonVisible = true
+    },
+
+    async handleLessonStatusChange (lesson: any) {
+      await saveOrUpdateLesson(lesson)
+      this.$message.success('操作成功')
     }
   }
 })
@@ -289,5 +307,9 @@ export default Vue.extend({
 .select-status {
   max-width: 90px;
   margin-left: 8px;
+}
+
+.lessonBtn {
+  font-size: 12px;
 }
 </style>

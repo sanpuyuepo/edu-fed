@@ -14,3 +14,21 @@ export const getSectionAndLesson = (courseId: number | string) => {
     }
   })
 }
+
+// 保存或更新章节
+export const saveOrUpdateSection = (data: any) => {
+  return requeset({
+    method: 'POST',
+    url: '/boss/course/section/saveOrUpdateSection',
+    data: data
+  })
+}
+
+// 获取章节课程
+export const getBySectionId = (data: any) => {
+  return requeset({
+    method: 'GET',
+    url: '/boss/course/section/getBySectionId',
+    data: data
+  })
+}

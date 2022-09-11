@@ -9,6 +9,9 @@
     <el-card>
       <el-tree
         draggable
+        v-loading="isLoading"
+        :allow-drop="handleAllowDrop"
+        @node-drop="handleNodeDrop"
         :data="sections"
         :props="defaultProps">
         <template v-slot="{ node, data }">
@@ -175,7 +178,8 @@ export default Vue.extend({
       isAddLessonVisible: false,
       course: {},
       sectionRules,
-      lessonRules
+      lessonRules,
+      isLoading: false
     }
   },
 
@@ -197,6 +201,49 @@ export default Vue.extend({
     async loadSections () {
       const { data } = await getSectionAndLesson(this.courseId)
       this.sections = data.data
+    },
+
+    /**
+     * 拖动逻辑处理: 只能平级拖动
+     * @param draggingNode 拖动的节点
+     * @param dropNode 放置的目标节点
+     * @param type 'prev'、'inner' 和 'next'，分别表示放置在目标节点前、插入至目标节点和放置在目标节点后
+     */
+    handleAllowDrop (draggingNode: any, dropNode: any, type: any) {
+      // console.log(draggingNode, dropNode, type)
+      return draggingNode.data.sectionId === dropNode.data.sectionId && type !== 'inner'
+    },
+
+    /**
+     * 拖拽成功完成时触发
+     * @param dragNode 被拖拽节点对应的 Node
+     * @param dropNode 结束拖拽时最后进入的节点
+     * @param type 被拖拽节点的放置位置（before、after、inner）
+     * @param event
+     */
+    async handleNodeDrop (dragNode: any, dropNode: any, type: any, event: any) {
+      this.isLoading = true
+      try {
+        await Promise.all(dropNode.parent.childNodes.map((item: any, index: number) => {
+          // 判断是否有 lessonDTOS 这个字段, 注意可能为空值: null/undefined
+          if ('lessonDTOS' in dragNode.data) {
+            return saveOrUpdateSection({
+              id: item.data.id,
+              orderNum: index + 1
+            })
+          } else {
+            return saveOrUpdateLesson({
+              id: item.data.id,
+              orderNum: index + 1
+            })
+          }
+        }))
+        this.$message.success('排序成功')
+      } catch (error) {
+        console.log(error)
+        this.$message.error('排序失败')
+      }
+      this.isLoading = false
     },
 
     handleShowAddSection () {

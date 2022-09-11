@@ -1,5 +1,5 @@
 /**
- * 课程章节相关请求接口
+ * 课程-章节相关请求接口
  */
 
 import requeset from '@/utils/request'

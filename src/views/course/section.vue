@@ -32,7 +32,7 @@
             <!-- lesson -->
             <span v-else class="actions">
               <el-button size="mini" @click="handleShowEditLesson(data, node.parent.data)">编辑</el-button>
-              <el-button size="mini" type="success">上传视频</el-button>
+              <el-button size="mini" type="success" @click="handleVideoUpload(data)">上传视频</el-button>
               <el-select class="select-status" size="mini"
                 v-model="data.status"
                 @change="handleLessonStatusChange(data)"
@@ -274,7 +274,6 @@ export default Vue.extend({
     },
 
     handleEditSectionShow (section: any) {
-      console.log(section)
       this.section = section
       this.isAddSectionVisible = true
     },
@@ -321,6 +320,20 @@ export default Vue.extend({
       this.isAddLessonVisible = true
     },
 
+    // video
+    handleVideoUpload (lesson: any) {
+      this.$router.push({
+        name: 'course-video',
+        params: {
+          courseId: this.courseId
+        },
+        query: {
+          sectionId: lesson.sectionId,
+          lessonId: lesson.id
+        }
+      })
+    },
+
     async handleLessonStatusChange (lesson: any) {
       await saveOrUpdateLesson(lesson)
       this.$message.success('操作成功')
@@ -347,7 +360,7 @@ export default Vue.extend({
   border-bottom: 1px solid #ebeef5;
 }
 
-::v-deep .el-tree-node__content {
+:deep .el-tree-node__content {
   height: auto;
 }
 

@@ -25,10 +25,12 @@ export const saveOrUpdateSection = (data: any) => {
 }
 
 // 获取章节课程
-export const getBySectionId = (data: any) => {
+export const getSectionById = (sectionId: number | string) => {
   return requeset({
     method: 'GET',
     url: '/boss/course/section/getBySectionId',
-    data: data
+    params: {
+      sectionId
+    }
   })
 }

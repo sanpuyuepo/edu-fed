@@ -12,3 +12,14 @@ export const saveOrUpdateLesson = (data: any) => {
     data: data
   })
 }
+
+// 通过Id获取课时
+export const getLessonById = (lessonId: number | string) => {
+  return requeset({
+    method: 'GET',
+    url: '/boss/course/lesson/getById',
+    params: {
+      lessonId
+    }
+  })
+}

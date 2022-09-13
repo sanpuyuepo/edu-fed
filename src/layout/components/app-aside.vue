@@ -2,8 +2,6 @@
   <div class="aside">
     <el-menu
       default-active="2"
-      @open="handleOpen"
-      @close="handleClose"
       background-color="#545c64"
       text-color="#fff"
       active-text-color="#ffd04b"
@@ -57,15 +55,7 @@
 import Vue from 'vue'
 
 export default Vue.extend({
-  name: 'AppAside',
-  methods: {
-    handleOpen (key: string, keyPath: string): void {
-      console.log(key, keyPath)
-    },
-    handleClose (key: string, keyPath: string): void {
-      console.log(key, keyPath)
-    }
-  }
+  name: 'AppAside'
 })
 </script>
 

@@ -1,124 +1,15 @@
 import Vue from 'vue'
-import VueRouter, { RouteConfig } from 'vue-router'
-// 布局组件
-import Layout from '@/layout/index.vue'
+import VueRouter from 'vue-router'
+
 import store from '@/store'
+import routes from './modules/index'
 
 Vue.use(VueRouter)
-
-// 路由配置规则
-const routes: Array<RouteConfig> = [
-  {
-    path: '/login',
-    name: 'login',
-    component: () => import(/* webpackChunkName: 'login' */ '@/views/login/index.vue')
-  },
-  {
-    path: '/',
-    component: Layout,
-    meta: {
-      requiresAuth: true // 自定义数据
-    }, // meta 默认为空对象
-    // 嵌套路由
-    children: [
-      {
-        path: '', // 默认子路由, 推荐
-        name: 'home',
-        component: () => import(/* webpackChunkName: 'home' */ '@/views/home/index.vue')
-      },
-      {
-        path: '/role',
-        name: 'role',
-        component: () => import(/* webpackChunkName: 'role' */ '@/views/role/index.vue')
-      },
-      {
-        path: '/menu',
-        name: 'menu',
-        component: () => import(/* webpackChunkName: 'menu' */ '@/views/menu/index.vue')
-      },
-      {
-        path: '/resource',
-        name: 'resource',
-        component: () => import(/* webpackChunkName: 'resource' */ '@/views/resource/index.vue')
-      },
-      // 课程管理
-      {
-        path: '/course',
-        name: 'course',
-        component: () => import(/* webpackChunkName: 'course' */ '@/views/course/index.vue')
-      },
-      {
-        path: '/course/new',
-        name: 'create-course',
-        component: () => import(/* webpackChunkName: 'create-course' */ '@/views/course/create.vue')
-      },
-      {
-        path: '/course/:courseId/edit',
-        name: 'edit-course',
-        component: () => import(/* webpackChunkName: 'edit-course' */ '@/views/course/edit.vue'),
-        props: true
-      },
-      {
-        path: '/course/:courseId/section',
-        name: 'course-section',
-        component: () => import(/* webpackChunkName: 'course-section' */ '@/views/course/section.vue'),
-        props: true
-      },
-      {
-        path: '/course/:courseId/video',
-        name: 'course-video',
-        component: () => import(/* webpackChunkName: 'course-video' */ '@/views/course/video.vue'),
-        props: true
-      },
-      {
-        path: '/user',
-        name: 'user',
-        component: () => import(/* webpackChunkName: 'user' */ '@/views/user/index.vue')
-      },
-      {
-        path: '/advert',
-        name: 'advert',
-        component: () => import(/* webpackChunkName: 'advert' */ '@/views/advert/index.vue')
-      },
-      {
-        path: '/advert-space',
-        name: 'advert-space',
-        // ! Fix this: with /* webpackChunkName: 'advert-space' */ , it won't work
-        // component: () => import(/* webpackChunkName: 'advert-space' */ '@/views/advert-space/index.vue')
-        component: () => import('@/views/advert-space/index.vue')
-      },
-      // menu-create
-      {
-        path: '/menu/create',
-        name: 'menu-create',
-        component: () => import(/* webpackChunkName: 'menu-create-edit' */ '@/views/menu/create.vue')
-      },
-      {
-        path: '/menu/:id/edit',
-        name: 'menu-edit',
-        component: () => import(/* webpackChunkName: 'menu-create-edit' */ '@/views/menu/edit.vue')
-      },
-      // role-management
-      {
-        path: '/role/:roleId/alloc-menu',
-        name: 'alloc-menu',
-        component: () => import(/* webpackChunkName: 'alloc-menu' */ '@/views/role/alloc-menu.vue'),
-        props: true // ^ 将路由路径中的动态参数(eg. :roleId)映射到组件的 props 数据中, 实现解耦
-      },
-      {
-        path: '/role/:roleId/alloc-resource',
-        name: 'alloc-resource',
-        component: () => import(/* webpackChunkName: 'alloc-resource' */ '@/views/role/alloc-resource.vue'),
-        props: true
-      }
-    ]
-  },
-  {
-    path: '*',
-    name: '404',
-    component: () => import(/* webpackChunkName: '404' */ '@/views/error-page/404.vue')
-  }
-]
+// 解决ElementUI导航栏中的vue-router在3.0版本以上重复点菜单报错问题
+// const originalPush = VueRouter.prototype.push
+// VueRouter.prototype.push = function push (location) {
+//   return originalPush.call(this, location).catch(err => err)
+// }
 
 const router = new VueRouter({
   routes

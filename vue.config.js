@@ -10,6 +10,7 @@ module.exports = defineConfig({
     }
   },
   devServer: {
+    // 仅针对开发服务有效
     proxy: {
       '/boss': {
         target: 'http://eduboss.lagounews.com',

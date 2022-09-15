@@ -35,10 +35,16 @@ export default Vue.extend({
 }
 .el-aside {
   background: #bfc;
+  position: sticky;
+  top: 0;
+  max-height: 100vh;
 }
 
 .el-header {
   background: #f8f9fa;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 </style>

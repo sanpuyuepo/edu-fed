@@ -61,11 +61,11 @@ export default Vue.extend({
     return {
       form: {
         parentId: -1, // -1: 没有上级菜单
-        name: '123',
-        href: '123',
-        icon: '123',
+        name: '',
+        href: '',
+        icon: '',
         orderNum: 0,
-        description: '123',
+        description: '',
         shown: false
       },
       parentMenuList: [], // 父级菜单列表
@@ -89,7 +89,9 @@ export default Vue.extend({
     async loadMenuInfo () {
       const { data } = await getEditMenuInfo(this.$route.params.id || -1)
       if (data.code === '000000') {
-        this.form = data.data.menuInfo
+        if (data.data.menuInfo) {
+          this.form = data.data.menuInfo
+        }
         this.parentMenuList = data.data.parentMenuList
       }
     },

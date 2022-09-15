@@ -8,7 +8,7 @@ import qs from 'qs'
 
 // 参数类型指定
 interface User {
-  phone: string,
+  phone: string
   password: string
 }
 

@@ -221,7 +221,7 @@ export default Vue.extend({
      * @param type 被拖拽节点的放置位置（before、after、inner）
      * @param event
      */
-    async handleNodeDrop (dragNode: any, dropNode: any, type: any, event: any) {
+    async handleNodeDrop (dragNode: any, dropNode: any) {
       this.isLoading = true
       try {
         await Promise.all(dropNode.parent.childNodes.map((item: any, index: number) => {

@@ -153,11 +153,11 @@ export default Vue.extend({
         },
         // 文件上传成功
         onUploadSucceed: function (uploadInfo: any) {
-          console.log('onUploadSucceed...')
+          console.log('onUploadSucceed...', uploadInfo)
         },
         // 文件上传失败
         onUploadFailed: function (uploadInfo: any, code: any, message: any) {
-          console.log('onUploadFailed...')
+          console.log('onUploadFailed...', uploadInfo, code, message)
         },
         // 文件上传进度，单位：字节
         onUploadProgress: (
@@ -165,19 +165,19 @@ export default Vue.extend({
           totalSize: any,
           loadedPercent: any
         ) => {
-          console.log('onUploadProgress...')
+          console.log('onUploadProgress...', uploadInfo, totalSize, loadedPercent)
           if (!uploadInfo.isImage) {
             this.uploadPercentage = Math.floor(loadedPercent * 100)
           }
         },
         // 上传凭证或STS token超时
         onUploadTokenExpired: function (uploadInfo: any) {
-          console.log('onUploadTokenExpired...')
+          console.log('onUploadTokenExpired...', uploadInfo)
         },
         // 全部文件上传结束
         onUploadEnd: async (uploadInfo: any) => {
           this.isUploadSuccess = true
-          console.log('onUploadEnd...')
+          console.log('onUploadEnd...', uploadInfo)
           // 请求转码
           const { data } = await aliyunTransCode({
             lessonId: this.lessonId,
@@ -185,6 +185,8 @@ export default Vue.extend({
             fileName: (this.videoFile as any).name,
             fileId: this.videoId
           })
+
+          console.log(data)
 
           const timer = setInterval(async () => {
             const { data } = await getAliyunTransCodePercent(this.lessonId)

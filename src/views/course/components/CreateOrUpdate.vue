@@ -117,7 +117,6 @@ import UploadImage from './UploadImage.vue'
 import TextEditor from '@/components/TextEditor/index.vue'
 import { saveOrUpdateCourse, getCourseById } from '@/services/course'
 import { Form } from 'element-ui'
-import { getFullTime } from '@/utils/time'
 
 export default Vue.extend({
   name: 'CreateOrUpate',
